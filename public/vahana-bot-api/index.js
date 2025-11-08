@@ -9,7 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 app.use(cors({
   origin: [
-   "https://vahanbazar-404-git-main-venky656s-projects.vercel.app"
+   "https://vahanbazar-404-7qwb.vercel.app/"
   ],
   methods: ["GET","POST"],
   allowedHeaders: ["Content-Type"],
