@@ -7,17 +7,17 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
-
 app.use(cors({
   origin: [
-    "http://localhost:8080",
-    "http://127.0.0.1:8080",
+    "https://vahanbazar-404-git-main-venky656s-projects.vercel.app",
     "http://localhost:5173",
-    "http://127.0.0.1:5173",
+    "http://localhost:3000"
   ],
   methods: ["GET","POST"],
   allowedHeaders: ["Content-Type"],
 }));
+
+
 
 app.use(bodyParser.json());
 
