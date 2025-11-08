@@ -1,0 +1,122 @@
+.alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 15, 40, 0.55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .alert-box {
+    background: #fff;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 460px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    position: relative;
+    overflow: hidden;
+    animation: slideDown 0.4s ease;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .alert-header {
+    background: linear-gradient(135deg, #0066ff, #7b2ff7);
+    color: #fff;
+    text-align: center;
+    padding: 16px 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  
+  .alert-content {
+    padding: 22px 28px 26px;
+    text-align: center;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #fff;
+    z-index: 10;
+  }
+  
+  .close-btn:hover {
+    color: #ffdf5d;
+    transform: scale(1.1);
+  }
+  
+  .intro-text {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  
+  .bike-name {
+    color: #222;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin: 6px 0;
+  }
+  
+  .discount-text {
+    color: #6a00f4;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+  
+  .feature-list {
+    text-align: left;
+    color: #333;
+    font-size: 15px;
+    margin: 12px 0;
+    padding-left: 20px;
+  }
+  
+  .feature-list li {
+    margin: 6px 0;
+    list-style: none;
+    position: relative;
+  }
+  
+  .feature-list li::before {
+    content: "•";
+    color: #6a00f4;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+  }
+  
+  .offer-timer {
+    margin-top: 16px;
+    font-size: 15px;
+    color: #444;
+  }
+  
+  .offer-timer span {
+    font-weight: 700;
+    color: #6a00f4;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideDown {
+    from { transform: translateY(-25px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
