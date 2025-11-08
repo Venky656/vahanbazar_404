@@ -9,9 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 app.use(cors({
   origin: [
-    "https://vahanbazar-404-git-main-venky656s-projects.vercel.app",
-    "http://localhost:5173",
-    "http://localhost:3000"
+   "https://vahanbazar-404-git-main-venky656s-projects.vercel.app"
   ],
   methods: ["GET","POST"],
   allowedHeaders: ["Content-Type"],
@@ -190,4 +188,3 @@ Engine: ${b.specifications.engine}`
   }
 });
 
-app.listen(PORT, () => console.log(`✅ VahanaBot running at http://localhost:${PORT}`));
