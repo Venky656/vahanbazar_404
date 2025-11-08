@@ -12,7 +12,8 @@ const ChatbotWindow: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const recRef = useRef<any>(null);
   const [listening, setListening] = useState(false);
 
-  const API = "http://localhost:4000"; // change if your backend port differs
+  // ✅ Using relative API (works on Vercel)
+  const API = ""; 
 
   useEffect(() => endRef.current?.scrollIntoView({ behavior: "smooth" }), [messages]);
 
@@ -34,7 +35,7 @@ const ChatbotWindow: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     setMessages(p => [...p, { sender: "user", text }]);
     setInput(""); setLoading(true);
     try {
-      const res = await fetch(`${API}/api/chat`, {
+      const res = await fetch(`/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId, message: text })
@@ -42,22 +43,7 @@ const ChatbotWindow: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       const data = await res.json();
       const reply = data.reply;
       if (!reply) return addBot("⚠️ Empty reply from server.");
-      if (reply.type === "compare") {
-        const table = reply.table.map((r:any[]) => r.join(" | ")).join("\n");
-        addBot(`📊 Comparison:\n${table}`);
-      } else if (reply.type === "search") {
-        if (!reply.results?.length) return addBot("No results found.");
-        const list = reply.results.slice(0,6).map((v:any)=>`✅ ${v.name} — ₹${v.price}`).join("\n");
-        addBot(list);
-      } else if (reply.type === "emi") {
-        addBot(`💰 EMI for ${reply.model}: ₹${reply.emi}/month`);
-      } else if (reply.type === "faq") {
-        addBot(reply.text);
-      } else if (reply.type === "ask_location") {
-        addBot(reply.text);
-      } else {
-        addBot(reply.text);
-      }
+      addBot(reply.text);
     } catch (e) {
       addBot("⚠️ Could not fetch response.");
     } finally {
@@ -65,60 +51,11 @@ const ChatbotWindow: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     }
   };
 
-  const shareLocation = () => {
-    if (!navigator.geolocation) return addBot("❌ Location not supported.");
-    navigator.geolocation.getCurrentPosition(async pos => {
-      addBot("📍 Location received. Finding nearby dealers...");
-      try {
-        const r = await fetch(`${API}/api/dealers`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ lat: pos.coords.latitude, lng: pos.coords.longitude })
-        });
-        const d = await r.json();
-        if (d.dealers?.length) {
-          const list = d.dealers.map((x:any)=>`🏬 ${x.name} (${x.brand})\n📞 ${x.phone}\n📍 ${x.address}`).join("\n\n");
-          addBot(`Nearby dealers:\n${list}`);
-        } else addBot("No dealers found nearby.");
-      } catch {
-        addBot("❌ Dealers lookup failed.");
-      }
-    }, () => addBot("❌ Location permission denied."));
-  };
-
-  const toggleMic = () => {
-    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SR) return addBot("⚠️ Speech recognition not supported.");
-    if (listening) { try { recRef.current?.stop(); } catch {} setListening(false); return; }
-    const rec = new SR(); recRef.current = rec;
-    rec.lang = "en-IN"; rec.interimResults = true; rec.continuous = false;
-    rec.onresult = (ev:any) => {
-      let final = ""; let interim = "";
-      for (let i = ev.resultIndex; i < ev.results.length; i++) {
-        const r = ev.results[i];
-        if (r.isFinal) {
-          final += r[0].transcript;
-        } else {
-          interim += r[0].transcript;
-        }
-      }
-      setInput(final || interim);
-    };
-    rec.onend = () => setListening(false);
-    rec.onerror = () => setListening(false);
-    rec.start(); setListening(true);
-  };
-
   return (
     <div className="w-full h-full border rounded-xl bg-white flex flex-col shadow-xl">
       <div className="bg-blue-600 text-white p-3 flex items-center justify-between">
         <b>VahanaBot</b>
-        <div className="flex items-center gap-2">
-          <button onClick={() => setVoiceReply(v=>!v)} className="px-2 py-1 rounded bg-blue-700">{voiceReply ? "🔊" : "🔈"}</button>
-          <button onClick={shareLocation} className="px-2 py-1 rounded bg-blue-700">📍</button>
-          <button onClick={toggleMic} className={`px-2 py-1 rounded ${listening ? "bg-red-500" : "bg-blue-700"}`}>{listening ? "🎙️" : "🎤"}</button>
-          <button onClick={onClose} className="hover:text-gray-200">✕</button>
-        </div>
+        <button onClick={onClose}>✕</button>
       </div>
 
       <div className="flex-1 p-3 overflow-y-auto space-y-3 bg-gray-50">
