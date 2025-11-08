@@ -12,7 +12,8 @@ const ChatbotWindow: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const recRef = useRef<any>(null);
   const [listening, setListening] = useState(false);
 
-  const API = "http://localhost:4000"; // change if your backend port differs
+  const API = "https://vahanbazar-404-bot-w3h6.onrender.com";
+
 
   useEffect(() => endRef.current?.scrollIntoView({ behavior: "smooth" }), [messages]);
 
